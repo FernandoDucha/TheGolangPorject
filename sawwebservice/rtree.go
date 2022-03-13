@@ -235,6 +235,10 @@ type Spatial interface {
 	Bounds() *Rect
 }
 
+func (p Point) Bounds() *Rect {
+	return p.ToRect(0.001)
+}
+
 // Insertion
 
 // Insert inserts a spatial object into the tree.  If insertion
@@ -575,7 +579,7 @@ func (tree *Rtree) condenseTree(n *node) {
 				}
 			}
 			if len(n.parent.entries) == len(entries) {
-				panic(fmt.Errorf("Failed to remove entry from parent"))
+				panic(fmt.Errorf("failed to remove entry from parent"))
 			}
 			n.parent.entries = entries
 

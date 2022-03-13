@@ -125,16 +125,16 @@ func verify(t *testing.T, rt *Rtree) {
 	}
 }
 
-func indexOf(objs []Spatial, obj Spatial) int {
-	ind := -1
-	for i, r := range objs {
-		if r == obj {
-			ind = i
-			break
-		}
-	}
-	return ind
-}
+// func indexOf(objs []Spatial, obj Spatial) int {
+// 	ind := -1
+// 	for i, r := range objs {
+// 		if r == obj {
+// 			ind = i
+// 			break
+// 		}
+// 	}
+// 	return ind
+// }
 
 var chooseLeafNodeTests = []struct {
 	bb0, bb1, bb2 *Rect // leaf bounding boxes
@@ -586,18 +586,19 @@ func TestFindLeaf(t *testing.T) {
 		if leaf == nil {
 			printNode(rt.root, 0)
 			t.Errorf("Unable to find leaf containing an entry after insertion!")
-		}
-		var found *Rect
-		for _, other := range leaf.entries {
-			if other.obj == thing {
-				found = other.obj.(*Rect)
-				break
+		} else {
+			var found *Rect
+			for _, other := range leaf.entries {
+				if other.obj == thing {
+					found = other.obj.(*Rect)
+					break
+				}
 			}
-		}
-		if found == nil {
-			printNode(rt.root, 0)
-			printNode(leaf, 0)
-			t.Errorf("Entry %v not found in leaf node %v!", thing, leaf)
+			if found == nil {
+				printNode(rt.root, 0)
+				printNode(leaf, 0)
+				t.Errorf("Entry %v not found in leaf node %v!", thing, leaf)
+			}
 		}
 	}
 }
