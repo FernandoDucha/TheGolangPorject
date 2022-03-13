@@ -1,4 +1,4 @@
-package rtreego
+package sawwebservice
 
 // Filter is an interface for filtering leaves during search. The parameters
 // should be treated as read-only. If refuse is true, the current entry will
