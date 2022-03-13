@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "SawWebService",
+			"path": "."
+		},
+		{
+			"name": "sawwebservice",
+			"path": "sawwebservice"
+		}
+	],
+	"settings": {}
+}
