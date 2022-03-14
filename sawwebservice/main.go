@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/FernandoDucha/sawwebservice"
+	"github.com/FernandoDucha/sawwebservice/"
 )
 
 func main() {
