@@ -44,18 +44,19 @@ func NewPointsVector(dim int, objs ...Spatial) (*PointsVector, []error) {
 	}
 	return pv, err
 }
-func (pv *PointsVector) insertPoint(coord []float64) (bool, error) {
+
+func (pv PointsVector) insertPoint(coord []float64) bool {
 	l := len(coord)
-	var err error
+	// var err error
 	poi := make(Point, pv.index.Dim)
 	if l == pv.index.Dim {
 		for i := 0; i < pv.index.Dim; i++ {
 			poi[i] = coord[i]
 		}
-		err = fmt.Errorf("0")
+		// err = fmt.Errorf("0")
 	} else {
-		err = fmt.Errorf("1")
-		return false, err
+		// err = fmt.Errorf("1")
+		return false
 	}
 	node := pv.index.chooseNode(pv.index.root, entry{poi.Bounds(), nil, poi}, 0)
 	if node != nil {
@@ -69,7 +70,7 @@ func (pv *PointsVector) insertPoint(coord []float64) (bool, error) {
 					}
 				}
 				if !flag {
-					return true, err
+					return true //, err
 				} else {
 					for i := 0; i < pv.index.Dim; i++ {
 						if pv.min[i] > poi[i] {
@@ -80,11 +81,11 @@ func (pv *PointsVector) insertPoint(coord []float64) (bool, error) {
 						}
 					}
 					pv.index.Insert(poi)
-					return false, err
+					return false //, err
 				}
 			}
 		}
-		return false, err
+		return false //, err
 	} else {
 		for i := 0; i < pv.index.Dim; i++ {
 			if pv.min[i] > poi[i] {
@@ -95,6 +96,6 @@ func (pv *PointsVector) insertPoint(coord []float64) (bool, error) {
 			}
 		}
 		pv.index.Insert(poi)
-		return false, err
+		return false //, err
 	}
 }
