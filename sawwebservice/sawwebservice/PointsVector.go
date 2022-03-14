@@ -44,13 +44,13 @@ func NewPointsVector(dim int, objs ...Spatial) (PointsVector, []error) {
 	}
 	return pv, err
 }
-func (pv PointsVector) insertPoint(coord ...float64) (bool, error) {
-	l := len(coord)
+func (pv PointsVector) PlacePoints(p []Point) (bool, error) {
+	l := len(p)
 	var err error
 	poi := make(Point, pv.index.Dim)
 	if l == pv.index.Dim {
 		for i := 0; i < pv.index.Dim; i++ {
-			poi[i] = coord[i]
+			// poi[i] = coord[i]
 		}
 		err = fmt.Errorf("0")
 	} else {
@@ -97,4 +97,7 @@ func (pv PointsVector) insertPoint(coord ...float64) (bool, error) {
 		pv.index.Insert(poi)
 		return false, err
 	}
+}
+func PlacePoints(pv PointsVector, p []Point) {
+	pv.placePoints(p)
 }
