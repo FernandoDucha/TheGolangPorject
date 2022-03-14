@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	var pv, _ = sawwebservice.NewPointsVector(2)
+	pv, _ := sawwebservice.NewPointsVector(2)
 	fooType := reflect.TypeOf(pv)
 	fmt.Printf("%d\n", fooType.NumMethod())
 	for i := 0; i < fooType.NumMethod(); i++ {

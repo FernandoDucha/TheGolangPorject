@@ -1,6 +1,7 @@
 package sawwebservice
 
 import (
+	"fmt"
 	"math"
 )
 
@@ -11,7 +12,7 @@ type PointsVector struct {
 	size  uint64
 }
 
-func NewPointsVector(dim int, objs ...Spatial) (PointsVector, []int) {
+func NewPointsVector(dim int, objs ...Spatial) (PointsVector, []error) {
 	pv := PointsVector{
 		index: NewTree(dim, 1, 32, objs...),
 		min:   make(Point, dim),
@@ -22,13 +23,13 @@ func NewPointsVector(dim int, objs ...Spatial) (PointsVector, []int) {
 		pv.min[i] = math.MaxFloat64
 		pv.max[i] = -math.MaxFloat64
 	}
-	var err []int
+	var err []error
 
 	for _, po := range objs {
 		poi, ok := po.(*Point)
 
 		if !ok {
-			err = append(err, 1)
+			err = append(err, fmt.Errorf("1"))
 		} else {
 			for i := 0; i < pv.index.Dim; i++ {
 				if pv.min[i] > (*poi)[i] {
@@ -38,24 +39,23 @@ func NewPointsVector(dim int, objs ...Spatial) (PointsVector, []int) {
 					pv.max[i] = (*poi)[i]
 				}
 			}
-			err = append(err, 0)
+			err = append(err, fmt.Errorf("0"))
 		}
 	}
 	return pv, err
 }
-
-func (pv PointsVector) insertPoint(coord []float64) bool {
+func (pv PointsVector) insertPoint(coord ...float64) (bool, error) {
 	l := len(coord)
-	// var err error
+	var err error
 	poi := make(Point, pv.index.Dim)
 	if l == pv.index.Dim {
 		for i := 0; i < pv.index.Dim; i++ {
 			poi[i] = coord[i]
 		}
-		// err = fmt.Errorf("0")
+		err = fmt.Errorf("0")
 	} else {
-		// err = fmt.Errorf("1")
-		return false
+		err = fmt.Errorf("1")
+		return false, err
 	}
 	node := pv.index.chooseNode(pv.index.root, entry{poi.Bounds(), nil, poi}, 0)
 	if node != nil {
@@ -69,7 +69,7 @@ func (pv PointsVector) insertPoint(coord []float64) bool {
 					}
 				}
 				if !flag {
-					return true //, err
+					return true, err
 				} else {
 					for i := 0; i < pv.index.Dim; i++ {
 						if pv.min[i] > poi[i] {
@@ -80,11 +80,11 @@ func (pv PointsVector) insertPoint(coord []float64) bool {
 						}
 					}
 					pv.index.Insert(poi)
-					return false //, err
+					return false, err
 				}
 			}
 		}
-		return false //, err
+		return false, err
 	} else {
 		for i := 0; i < pv.index.Dim; i++ {
 			if pv.min[i] > poi[i] {
@@ -95,6 +95,6 @@ func (pv PointsVector) insertPoint(coord []float64) bool {
 			}
 		}
 		pv.index.Insert(poi)
-		return false //, err
+		return false, err
 	}
 }

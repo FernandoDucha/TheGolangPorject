@@ -3,7 +3,7 @@ package pointgenerator
 import (
 	"math/rand"
 
-	"gihub.com/FernandoDucha/sawwebservice"
+	"github.com/FernandoDucha/sawwebservice"
 )
 
 func pointgen() {
@@ -14,7 +14,7 @@ func pointgen() {
 		for j := 0; j < 2; j++ {
 			p[i] = rand.Float64() * 100
 		}
-		inserted := (*pv).insertPoint(p)
+		inserted := pv.insertPoint(p)
 		// if inserted{
 
 		// }
